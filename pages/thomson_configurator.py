@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 
 
-config_file = r"C:\Users\dawid.vandermerwe\OneDrive - ERIKS\Dawid Test\Articles\Thomson\Article Configurator\Configurator.xlsx"
+config_file = r"data/Configurator.xlsx"
 
 # create dfs
 hd_df = pd.read_excel(config_file, sheet_name="HD Lin Acc", usecols="A:F")
