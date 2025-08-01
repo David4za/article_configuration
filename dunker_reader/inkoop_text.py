@@ -1,9 +1,18 @@
+"""
+Consider, a lot of the tools were made using Jupyter
+due to the nature of the PDF was read, so at times
+the code is more confusing than it should be.
+"""
 import re
 import pandas as pd
 
 from dunker_reader.constants import GEARBOX_OPTION, ENCODER_OPTIONS, BRAKE_OPTIONS, FW_OPTIONS
 
 def gearbox_check(dfs=None):
+    """
+    Gearbox position is always at the same spot
+    Thus, we can hard code the chceker
+    """
     if dfs == None:
         raise ValueError("dfs must be provided")
     # ensure Col_1 exist and the df has enough variables
@@ -29,7 +38,11 @@ def inkoop_text(dfs, sales_text_df):
     
     # Motor
     
-    # This part is spliting the motor text and looking if the motor FW is there and then adds the space between e.g., dProIO 
+    """
+    This part is spliting the motor text and looking if the 
+    motor FW is there and then adds the space between e.g., dProIO
+    """
+
     original_text = dfs[0].loc[0, "Col_1"]
     og_split = original_text.split()
     fw_part = og_split[-1]
@@ -63,8 +76,13 @@ def inkoop_text(dfs, sales_text_df):
     if gearbox_check(dfs=dfs) == True:
         gb_reducation = ""
         for df in dfs:
-            # initially i was using enumerate but that is only for iterable items such as lists. For items inside of a df one must use .iterrows()
-            # here i is still the index and then row is the content within the cells i.e. index , Col_1 , Col_2
+            """
+            initially i was using enumerate but that is only for iterable items such as lists. 
+            For items inside of a df one must use .iterrows()
+
+            here i is still the index and then row is the content 
+            within the cells i.e. index , Col_1 , Col_2
+            """
             for i,row in df.iterrows():
                 if row['Col_3'] == "reduction":
                     # here, my loc returns a df, thus I need to use iloc as it returns based on the index which in this new df will be 0
@@ -126,8 +144,16 @@ def inkoop_text(dfs, sales_text_df):
                         break
                     else:
                         brake_type = 'NA'
-                        
-                inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] = inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] + brake_type
+
+    """
+    This was a later somewhat makeshift fix
+    """               
+    if brake_type != "NA":
+        brake_voltage = normalize_text(dfs[-1].loc[dfs[-1]['Col_1'] == "Brakevoltage", 'Col_2'].values[0].strip())
+        brake_voltage = " "+brake_voltage[:2]+"V"
+        inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] = inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] + brake_type + brake_voltage
+    else:
+        inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] = inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] + brake_type
 
         # cover details
     cover_status = False
