@@ -33,7 +33,7 @@ st.write(
     ### 🧪 Test Examples:
 
     - **XD**: `XD24B160-0150COORKHSN`  
-    - **HD**: `HD24B026-0100ELX2NPS`  
+    - **HD**: `HD24B026-0100ELX2NPSD`  
     - **GX**: `D24C2KB506M3NN-AMM`  
     - **MD**: `MD24A200-0150XXP2NNSD`
 
