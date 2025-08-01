@@ -142,18 +142,23 @@ def inkoop_text(dfs, sales_text_df):
                     elif df.loc[i,"Col_2"] == "Poweronbrake":
                         brake_type = 'A'
                         break
-                    else:
-                        brake_type = 'NA'
+                break
 
-                    """
-                    This was a later somewhat makeshift fix
-                    """               
-                    if brake_type != "NA":
-                        brake_voltage = normalize_text(dfs[-1].loc[dfs[-1]['Col_1'] == "Brakevoltage", 'Col_2'].values[0].strip())
-                        brake_voltage = " "+brake_voltage[:2]+"V"
-                        inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] = inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] + brake_type + brake_voltage
-                    else:
-                        inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] = inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] + brake_type
+        brake_voltage = ""
+        if brake_type != "NA":
+            for df in dfs:
+                if df.loc[0, "Col_1"] == "Attachment":
+                    for i,j in enumerate(df["Col_1"]):
+                        if df.loc[i,"Col_1"] == "Brakevoltage":
+                            brake_voltage = normalize_text(df.loc[df['Col_1'] == "Brakevoltage", 'Col_2'].values[0].strip())
+                            brake_voltage = " "+brake_voltage[:2]+"V"
+                            break
+                        else:
+                            brake_voltage = False
+        
+        if brake_found:
+            inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] = inkoop_text_df.loc[inkoop_text_df['Keys'] == 'Brake', 'Details'] + brake_type + brake_voltage
+
 
         # cover details
     cover_status = False
