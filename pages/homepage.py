@@ -1,8 +1,9 @@
 import streamlit as st
 
 st.title(":material/home: Home Page")
-st.write(
-   """**Welcome to the EN07 Article Creation Tool** 👋
+st.markdown(
+   """
+   **Welcome to the EN07 Article Creation Tool** 👋
 
 This internal tool was built to simplify and streamline the article creation process for Thomson actuators.
 
@@ -36,3 +37,4 @@ You’ll get:
 
 *Originally developed by Dawid vd M, last update - 07/08/2025.*
 """
+)
