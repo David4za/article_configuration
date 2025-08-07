@@ -35,6 +35,6 @@ You’ll get:
 
 ---
 
-*Originally developed by Dawid vd M, last update - 07/08/2025.*
+*Last update - 07/08/2025 by DvdM.*
 """
 )
